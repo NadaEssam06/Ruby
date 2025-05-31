@@ -56,33 +56,41 @@ end
 
 class CBABank < Bank
   include Loggable
-  def process_transactions (transactions,&block)
+  def process_transactions (transactions,&block)   
     transactions.each do |trans|
-      if($users.include? trans.user)
-          if( trans.user.balance >  0)
-            state= "success"
-            trans.balance_calculate!
-            if(trans.user.balance > 0)
-              log_info trans.user.name,"succeeded"
+      begin
+          if($users.include? trans.user)
+            if( trans.user.balance >  0)
+              state= "success"
+              trans.balance_calculate!
+              if(trans.user.balance > 0)
+                log_info trans.user.name,"succeeded"
+              else
+                log_warning trans.user.name,"has 0 balance"
+              end
+
             else
-              log_warning trans.user.name,"has 0 balance"
-            end
+              state="failure"
+              message="with reason Not enough balance"
+              log_error trans.user.name,"failed with message Not enough balance"
+              raise "Balance not enough"
 
-          else
-            state="failure"
-            message="with reason Not enough balance"
-            log_error trans.user.name,"failed with message Not enough balance"
+          end
+        else
+          state="failure"
+          message="with reason Menna not exist in the bank!"
+          log_error trans.user.name,"failed with message #{trans.user.name} not exist in"
+          raise "not exist user"
         end
-      else
-        state="failure"
-        message="with reason Menna not exist in the bank!"
-        log_error trans.user.name,"failed with message #{trans.user.name} not exist in"
-
+      rescue => e
+        puts e.message
       end
+      
+
      
       block.call state,trans.user.name,trans.value,message
     end
-  end
+  end 
 end
 
 out_side_bank_users = [
