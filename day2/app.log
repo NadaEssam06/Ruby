@@ -1,0 +1,6 @@
+2025-05-31 17:22:14 +0300 -- info -- User Ali Transaction succeeded
+2025-05-31 17:22:14 +0300 -- info -- User Ali Transaction succeeded
+2025-05-31 17:22:14 +0300 -- info -- User Ali Transaction succeeded
+2025-05-31 17:22:14 +0300 -- warning -- User Ali  Transaction has 0 balance
+2025-05-31 17:22:14 +0300 -- error -- User Ali Transaction failed with message Not enough balance
+2025-05-31 17:22:14 +0300 -- error -- User Menna Transaction failed with message Menna not exist in
